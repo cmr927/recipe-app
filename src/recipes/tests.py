@@ -1,12 +1,14 @@
 from django.test import TestCase
-from .models import Recipe #to access Recipe model
+from .models import Recipe, Ingredient #to access Recipe/Ingredient models
 
 # Create your tests here.
 class RecipeModelTest(TestCase):
    
    def setUpTestData():
        #Set up non-modified objects used by all test methods
-       Recipe.objects.create(name= 'Peanut Butter & Jelly Sandwich', ingredients= 'Peanut Butter, Jelly, Bread', cooking_time= '5', difficulty= 'medium')
+       recipe = Recipe.objects.create(name= 'Peanut Butter & Jelly Sandwich', cooking_time= '5', difficulty= 'medium')
+       ingredients = Ingredient.objects.create(name= 'Peanut Butter, Jelly, Bread')
+       recipe.ingredients.add(ingredients)
        
    def test_recipe_name(self):
         #Get a recipe object to test

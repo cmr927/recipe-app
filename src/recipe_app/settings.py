@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #reciep-app related apps
     'recipes',
-    'users'
+    'users',
+    'ingredients'
 ]
 
 MIDDLEWARE = [

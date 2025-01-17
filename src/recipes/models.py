@@ -1,4 +1,5 @@
 from django.db import models
+from ingredients.models import Ingredient
 
 difficutly_choices = (
     ('easy','Easy'),
@@ -10,7 +11,7 @@ difficutly_choices = (
 # Create your models here.
 class Recipe(models.Model):
     name= models.CharField(max_length=120)
-    ingredients= models.TextField(default="no ingredients yet")
+    ingredients= models.ManyToManyField(Ingredient, related_name="recipes")
     cooking_time= models.PositiveIntegerField()
     difficulty= models.CharField(max_length=20, choices=difficutly_choices)
     
