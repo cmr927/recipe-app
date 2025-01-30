@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     #reciep-app related apps
     'recipes',
     'users',
-    'ingredients'
+    'ingredients',
+    'recipe_ingredients'
 ]
 
 MIDDLEWARE = [

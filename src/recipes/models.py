@@ -14,6 +14,8 @@ class Recipe(models.Model):
     ingredients= models.ManyToManyField(Ingredient, related_name="recipes")
     cooking_time= models.PositiveIntegerField()
     difficulty= models.CharField(max_length=20, choices=difficutly_choices)
+    directions= models.TextField(default="directions")
+    pic = models.ImageField(upload_to='customers', default='no_picture.jpg')
     
     def __str__(self):
         return str(self.name)
