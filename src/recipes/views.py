@@ -13,4 +13,4 @@ class RecipeDetailView(DetailView):         #class-based view
        
 #Maybe get rid of this? Might be old.
 def home(request):
-    return render(request, 'recipes/main.html')
+    return render(request, 'recipes/recipes_home.html')
