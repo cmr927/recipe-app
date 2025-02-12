@@ -23,3 +23,7 @@ class Recipe(models.Model):
 
     def get_absolute_url(self):
         return reverse ('recipes:detail', kwargs={'pk': self.pk})
+    
+    def get_ingredients(self):
+        print(self.ingredients.all())
+        return "\n".join([i.name for i in self.ingredients.all()])
