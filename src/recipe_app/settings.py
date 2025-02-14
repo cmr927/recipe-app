@@ -38,10 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #reciep-app related apps
+    'recipe_ingredients',
     'recipes',
     'users',
     'ingredients',
-    'recipe_ingredients',
     'home'
 ]
 

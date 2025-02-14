@@ -12,7 +12,7 @@ difficutly_choices = (
 # Create your models here.
 class Recipe(models.Model):
     name= models.CharField(max_length=120)
-    ingredients= models.ManyToManyField(Ingredient, related_name="recipes")
+    ingredients= models.ManyToManyField(Ingredient, related_name="recipes", through="recipe_ingredients.RecipeIngredient")
     cooking_time= models.PositiveIntegerField()
     difficulty= models.CharField(max_length=20, choices=difficutly_choices)
     directions= models.TextField(default="directions")
@@ -25,5 +25,4 @@ class Recipe(models.Model):
         return reverse ('recipes:detail', kwargs={'pk': self.pk})
     
     def get_ingredients(self):
-        print(self.ingredients.all())
-        return "\n".join([i.name for i in self.ingredients.all()])
+        return "\n".join([i.quantity + ' ' + i.ingredient.name for i in self.recipeingredient_set.all()])
