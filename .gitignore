@@ -59,3 +59,7 @@ venv.bak/
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+src/recipe_app/__pycache__/settings.cpython-312.pyc
+src/recipe_app/__pycache__/settings.cpython-312.pyc
+/src/recipe_app/__pycache__
+/src/recipe_app/__pycache__
