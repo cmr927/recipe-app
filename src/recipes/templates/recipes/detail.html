@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{object.name}} details</title>
+    <title>{{object.name}} Recipe - Chop It Like It's Hot</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -16,7 +17,7 @@
             text-align: center;
             padding: 60px 20px;
             background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-                center/cover no-repeat;
+            url("{% static 'home/images/home_pic.jpeg' %}") center/cover no-repeat;
             color: white;
         }
 
@@ -28,23 +29,51 @@
         .details-section p {
             font-size: 1.25rem;
         }
+
+        .fit-content-width {
+            width: fit-content;
+        }
     </style>
 </head>
 
 <body>
     <section class="details-section">
-        <h2>{{object.name}}</h2>
-        <img src="{{object.pic.url}}" width="200" height="300" />
-        <br>
-        <b>Cooking time (in minutes): </b>{{object.cooking_time}} <br>
-        <br>
-        <b>Difficulty: </b>{{object.calc_difficulty}} <br>
-        <br>
-        <b>Ingredients: </b>{{object.get_ingredients|linebreaks}} <br>
-        <br>
-        <b>Directions: </b>{{object.directions|linebreaks}}
-        <br>
+        <h1>Chop It Like It's Hot</h1>
     </section>
+
+    <div class="d-flex flex-column">
+        <div class="row d-flex justify-content-center">
+            <div class="fit-content-width">
+                <div class="row d-flex justify-content-center">
+                    <div class="fit-content-width mt-2">
+                        <h2>{{object.name}}</h2>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-1">
+                    <img style="display: block; margin: auto;" src="{{object.pic.url}}" width="300" />
+                </div>
+                <div class="mt-2">
+                    <b>Cooking time (in minutes): </b>{{object.cooking_time}}
+                </div>
+
+
+                <div class="row">
+                    <div class="fit-content-width mt-1">
+                        <b>Difficulty: </b>{{object.calc_difficulty}}
+                    </div>
+                </div>
+                <div class="mt-1">
+                    <b>Ingredients: </b>{{object.get_ingredients|linebreaks}}
+                </div>
+            </div>
+
+            <div class="w-100 d-flex justify-content-center">
+                <div class="w-75 mt-1">
+                    <b>Directions: </b>{{object.directions|linebreaks}}
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
