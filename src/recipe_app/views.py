@@ -28,7 +28,7 @@ def login_view(request):
            if user is not None:                    #if user is authenticated
           #then use pre-defined Django function to login
                login(request, user)                
-               return redirect('home:records') #& send the user to desired page
+               return redirect('/home') #& send the user to home/records.html
        else:                                               #in case of error
            error_message ='ooops.. something went wrong'   #print error message
 
@@ -43,4 +43,4 @@ def login_view(request):
 #define a function view called logout_view that takes a request from user
 def logout_view(request):                                  
     logout(request)          #the use pre-defined Django function to logout
-    return redirect(request, 'auth/success.html') #after logging out go to success.html
+    return render(request, 'auth/success.html') #after logging out go to success.html
