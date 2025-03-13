@@ -1,19 +1,63 @@
 <!DOCTYPE html>
-<h1>Login</h1>
+{% load static %}
+<html lang="en">
 
-{% comment %} check for error message {% endcomment %}
-{% if error_message %}
-{{error_message}}
-{% endif %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chop It Like It's Hot - Login</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
 
-{% comment %} print form {% endcomment %}
-<form action="" method="POST">
-    {% comment %} add Django security token {% endcomment %}
-    {% csrf_token %}
+        .login-section {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+            url("{% static 'home/images/home_pic.jpeg' %}") center/cover no-repeat;
+            color: white;
+        }
 
-    {% comment %} print form received from view {% endcomment %}
-    {{form}}
+        .login-section h1 {
+            font-size: 3rem;
+            font-weight: bold;
+        }
 
-    {% comment %} add button {% endcomment %}
-    <button type="submit">Login</button>
-</form>
+        .login-section p {
+            font-size: 1.25rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Hero Section -->
+    <section class="login-section">
+        <div class="container">
+            <h1>Welcome to Chop It Like It's Hot!</h1>
+            <p>Discover delicious recipes and save your favorite dishes!</p>
+        </div>
+    </section>
+    <h1>Login</h1>
+
+    {% comment %} check for error message {% endcomment %}
+    {% if error_message %}
+    {{error_message}}
+    {% endif %}
+
+    {% comment %} print form {% endcomment %}
+    <form action="" method="POST">
+        {% comment %} add Django security token {% endcomment %}
+        {% csrf_token %}
+
+        {% comment %} print form received from view {% endcomment %}
+        {{form}}
+
+        {% comment %} add button {% endcomment %}
+        <button type="submit">Login</button>
+    </form>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
