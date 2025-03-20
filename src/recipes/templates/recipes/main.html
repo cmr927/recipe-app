@@ -33,9 +33,32 @@
 </head>
 
 <body>
+
     <section class="main-section">
         <h1> Chop It Like It's Hot - Latest Recipes </h1>
     </section>
+    <div>
+        <h1> Search for sales records </h1>
+
+
+        <hr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{form}}
+            <button type="submit">search</button>
+
+        </form>
+
+        <br>
+
+        {% if sales_df %}
+        {{sales_df|safe}}
+        <br>
+        <img src="data:image/png;base64, {{chart|safe}}">
+        {% else %}
+        <h3> no data</h3>
+        {% endif %}
+    </div>
     <div class="row"> {% comment%} start of table {% endcomment%}
 
         {% for object in object_list %} {% comment%} go through each element of recipes's' list using for
