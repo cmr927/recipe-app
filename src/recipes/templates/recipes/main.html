@@ -52,7 +52,21 @@
         <br>
 
         {% if recipes_df %}
-        {{recipes_df|safe}}
+        <a href="">Back</a>
+        {% for recipe in recipes_df %}
+        <div class="row">
+            <div class="col">
+                <a href={{recipe.id}}>{{recipe.name}} </a>
+            </div>
+            <div class="col">
+                {{recipe.cooking_time}}
+            </div>
+            <div class="col">
+                {{recipe.difficulty}}
+            </div>
+        </div>
+        {% endfor %}
+
         <br>
         <img src="data:image/png;base64, {{chart|safe}}">
         {% else %}

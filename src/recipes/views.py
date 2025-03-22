@@ -11,6 +11,7 @@ import pandas as pd
 class RecipeListView(LoginRequiredMixin, ListView):             #class-based “protected” view
     model = Recipe                          #specify model
     template_name = 'recipes/main.html'     #specify template
+    
     def get_context_data(self,*args, **kwargs):
         context = super(RecipeListView, self).get_context_data(*args,**kwargs)
         context['form'] = RecipesSearchForm(None)
@@ -21,11 +22,12 @@ class RecipeListView(LoginRequiredMixin, ListView):             #class-based “
         chart=None        #initialize chart to None
         #read recipe_title and chart_type
         recipe_title = request.POST.get('recipe_title')
+        ingredient_title = request.POST.get('ingredient_title')
         chart_type = request.POST.get('chart_type')
         
         #apply filter to extract data
-        qs = Recipe.objects.filter(name__icontains=recipe_title)
-        ingredient_qs = RecipeIngredient.objects.filter(recipe__name__icontains=recipe_title)
+        qs = Recipe.objects.filter(name__icontains=recipe_title, ingredients__name__icontains=ingredient_title).distinct()
+        ingredient_qs = RecipeIngredient.objects.filter(recipe__name__icontains=recipe_title, ingredient__name__icontains=ingredient_title).distinct()
         print(ingredient_qs)
         print("qs", qs)
         if qs and ingredient_qs:      #if data found
@@ -34,15 +36,15 @@ class RecipeListView(LoginRequiredMixin, ListView):             #class-based “
            print("recipes_df", recipes_df)
            ingredients_df=pd.DataFrame(ingredient_qs.values())
            ingredients_df['ingredient_name']=ingredients_df['ingredient_id'].apply(get_ingredientname_from_id)
-           #convert the ID to Name of recipe
-           recipes_df['id']=recipes_df['id'].apply(get_recipename_from_id)
-           recipes_df = recipes_df[['id', 'name', 'cooking_time', 'difficulty']]
+
+           
            
            #call get_chart by passing chart_type from user input, recipess dataframe and labels
            chart=get_chart(chart_type, recipes_df, ingredients_df=ingredients_df)
+           recipes_df = recipes_df[[ 'name', 'cooking_time', 'difficulty', 'id']]
            
-           #convert the dataframe to HTML
-           recipes_df=recipes_df.to_html()
+          
+           recipes_df=recipes_df.to_dict(orient='records')
            
         #display in terminal - needed for debugging during development only
         print (recipe_title, chart_type)
@@ -73,7 +75,7 @@ class RecipeListView(LoginRequiredMixin, ListView):             #class-based “
                 'chart': chart,
         }
         
-
+        print('recipes_df', recipes_df)
         #Load the recipes/main.html page using the data that you just prepared
         return render(request, 'recipes/main.html', context)   
        
