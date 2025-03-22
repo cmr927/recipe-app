@@ -1,8 +1,9 @@
 from django.shortcuts import render     #imported by default
 from django.views.generic import ListView, DetailView   #to display lists and details
 from .forms import RecipesSearchForm
-from .models import Recipe    #to access Recipe model
-from .utils import get_recipename_from_id, get_chart
+from .models import Recipe, Ingredient #to access Recipe, & Ingredient models
+from recipe_ingredients.models import RecipeIngredient #to access RecipeIngredient model
+from .utils import get_recipename_from_id, get_chart, get_ingredientname_from_id
 from django.contrib.auth.mixins import LoginRequiredMixin #to protect class-based view
 import pandas as pd
 
@@ -23,18 +24,22 @@ class RecipeListView(LoginRequiredMixin, ListView):             #class-based “
         chart_type = request.POST.get('chart_type')
         
         #apply filter to extract data
-        qs =Recipe.objects.filter(name__icontains=recipe_title)
+        qs = Recipe.objects.filter(name__icontains=recipe_title)
+        ingredient_qs = RecipeIngredient.objects.filter(recipe__name__icontains=recipe_title)
+        print(ingredient_qs)
         print("qs", qs)
-        if qs:      #if data found
+        if qs and ingredient_qs:      #if data found
            #convert the queryset values to pandas dataframe
            recipes_df=pd.DataFrame(qs.values())
            print("recipes_df", recipes_df)
+           ingredients_df=pd.DataFrame(ingredient_qs.values())
+           ingredients_df['ingredient_name']=ingredients_df['ingredient_id'].apply(get_ingredientname_from_id)
            #convert the ID to Name of recipe
            recipes_df['id']=recipes_df['id'].apply(get_recipename_from_id)
-           recipes_df = recipes_df[['name', 'cooking_time', 'difficulty']]
+           recipes_df = recipes_df[['id', 'name', 'cooking_time', 'difficulty']]
            
            #call get_chart by passing chart_type from user input, recipess dataframe and labels
-        #    chart=get_chart(chart_type, recipes_df, labels=recipes_df[].values)
+           chart=get_chart(chart_type, recipes_df, ingredients_df=ingredients_df)
            
            #convert the dataframe to HTML
            recipes_df=recipes_df.to_html()

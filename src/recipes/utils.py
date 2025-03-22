@@ -1,4 +1,4 @@
-from recipes.models import Recipe   #you need to connect parameters from recipes model
+from recipes.models import Recipe, Ingredient   #you need to connect parameters from recipes modeel
 from io import BytesIO
 import base64
 import matplotlib.pyplot as plt
@@ -9,6 +9,12 @@ def get_recipename_from_id(val):
    recipename=Recipe.objects.get(id=val)
    #and the name is returned back
    return recipename
+
+def get_ingredientname_from_id(val):
+   #this ID is used to retrieve the ingredient name from the record
+   ingredientname=Ingredient.objects.get(id=val).name
+   #and the name is returned back
+   return ingredientname
 
 def get_graph():
    #create a BytesIO buffer for the image
@@ -38,6 +44,7 @@ def get_graph():
 #chart_type: user input o type of chart,
 #data: pandas dataframe
 def get_chart(chart_type, data, **kwargs):
+   print(data)
    #switch plot backend to AGG (Anti-Grain Geometry) - to write to file
    #AGG is preferred solution to write PNG files
    plt.switch_backend('AGG')
@@ -47,18 +54,41 @@ def get_chart(chart_type, data, **kwargs):
 
    #select chart_type based on user input from the form
    if chart_type == '#1':
-       #plot bar chart between date on x-axis and quantity on y-axis
-       plt.bar(data['date_created'], data['quantity'])
+       ingredients_df=kwargs.get('ingredients_df')
+       print('ingredients_df', ingredients_df)
+       ingredients_groupby = ingredients_df.groupby('ingredient_id').agg({
+           'ingredient_name':'first',
+           'recipe_id': 'count'
+           
+       })
+       #plot BAR CHART between date on x-axis and quantity on y-axis
+       print(ingredients_groupby['ingredient_name'].values)
+       print(ingredients_groupby['recipe_id'].values)
+       plt.bar(ingredients_groupby['ingredient_name'].values, ingredients_groupby['recipe_id'].values)
+       plt.xlabel("Ingredient Name")
+       plt.ylabel("Number of Recipes")
 
    elif chart_type == '#2':
-       #generate pie chart based on the price.
-       #The recipe titles are sent from the view as labels
-       labels=kwargs.get('labels')
-       plt.pie(data['price'], labels=labels)
+       #generate PIE CHART based on the price.
+       #The labels come from the dataframe
+       
+       difficulty_sizes = data.groupby('difficulty').agg({
+           'difficulty': 'first',
+           'id': 'count'
+       })
+       print('difficulty_sizes', difficulty_sizes)
+       plt.pie(difficulty_sizes['id'].values, labels=difficulty_sizes['difficulty'].values)
+       
 
    elif chart_type == '#3':
-       #plot line chart based on date on x-axis and price on y-axis
-       plt.plot(data['date_created'], data['price'])
+       #plot LINE CHART based on date on x-axis and price on y-axis
+       cooking_time_sizes = data.groupby('cooking_time').agg({
+           'cooking_time': 'first',
+           'id': 'count'
+       })
+       plt.plot(cooking_time_sizes['cooking_time'], cooking_time_sizes['id'])
+       plt.xlabel("Cooking Time")
+       plt.ylabel("Recipe Count")
    else:
        print ('unknown chart type')
 
