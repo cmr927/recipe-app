@@ -160,7 +160,7 @@ class RecipeFormTest(TestCase):
       self.assertTrue(form.is_valid())
       
 class TestRecipeListView(TestCase):
-   def setUpTestData(self):
+   def setUp(self):
       self.factory = RequestFactory()
       self.user = User.objects.create_user(
       username='test1',
