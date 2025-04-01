@@ -29,6 +29,10 @@
         .main-section p {
             font-size: 1.25rem;
         }
+
+        .recipe-images {
+            border-radius: 15%;
+        }
     </style>
 </head>
 
@@ -80,7 +84,8 @@
         {% endcomment%}
         <div class="mt-4 col-4">
             <div class="d-flex justify-content-center">
-                <img src="{{object.pic.url}}" width="150" height="200" /> {% comment%} display the recipe
+                <img class="recipe-images" src="{{object.pic.url}}" width="200" height="200" /> {% comment%} display the
+                recipe
                 pic
                 {% endcomment%}
             </div>

@@ -33,6 +33,10 @@
         .fit-content-width {
             width: fit-content;
         }
+
+        .recipe-images {
+            border-radius: 15%;
+        }
     </style>
 </head>
 
@@ -50,7 +54,8 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-center mt-1">
-                    <img style="display: block; margin: auto;" src="{{object.pic.url}}" width="300" />
+                    <img class="recipe-images" style="display: block; margin: auto;" src="{{object.pic.url}}"
+                        width="300" />
                 </div>
                 <div class="mt-2">
                     <b>Cooking time (in minutes): </b>{{object.cooking_time}}
