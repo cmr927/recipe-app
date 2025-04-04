@@ -6,7 +6,7 @@ body {
     text-align: center;
     padding: 60px 20px;
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url("home/images/home_pic.jpeg") center/cover no-repeat;
+    url("{% static 'home/images/home_pic.jpeg' %}") center/cover no-repeat;
     color: white;
 }
 

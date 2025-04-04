@@ -6,41 +6,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Chop It Like It's Hot</title>
+    <!-- Vanilla CSS -->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .main-section {
-            text-align: center;
-            padding: 60px 20px;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-            url("{% static 'home/images/home_pic.jpeg' %}") center/cover no-repeat;
-            color: white;
-        }
-
-        .main-section h1 {
-            font-size: 3rem;
-            font-weight: bold;
-        }
-
-        .main-section p {
-            font-size: 1.25rem;
-        }
-
-        .recipe-images {
-            border-radius: 15%;
-        }
-    </style>
 </head>
 
 <body>
 
-    <section class="main-section">
-        <h1> Chop It Like It's Hot - Latest Recipes </h1>
+    <section class="header-section">
+        <h1> Chop It Like It's Hot</h1>
     </section>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">Recipe App</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Recipes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About Me</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{%url 'logout' %}">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-primary text-white px-4" href="#">Get Started</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <div>
         <h1> Search for recipes and ingredients </h1>
 
@@ -77,7 +72,8 @@
         <h3> no data</h3>
         {% endif %}
     </div>
-    <div class="row"> {% comment%} start of table {% endcomment%}
+    <div class="row">
+        <h1> Latest Recipes </h1> {% comment%} start of table {% endcomment%}
 
         {% for object in object_list %} {% comment%} go through each element of recipes's' list using for
         loop
