@@ -18,6 +18,25 @@
         <h1>Chop It Like It's Hot</h1>
     </section>
 
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">Recipe App</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{%url 'recipes:list' %}">Recipes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{%url 'about:about' %}">About Me</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{%url 'logout' %}">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-primary text-white px-4" href="#">Get Started</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <div class="d-flex flex-column">
         <div class="row d-flex justify-content-center">
             <div class="fit-content-width">

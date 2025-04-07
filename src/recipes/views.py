@@ -1,6 +1,6 @@
 from django.shortcuts import render     #imported by default
 from django.views.generic import ListView, DetailView   #to display lists and details
-from .forms import RecipesSearchForm
+from .forms import RecipesSearchForm, UserInputForm
 from .models import Recipe, Ingredient #to access Recipe, & Ingredient models
 from recipe_ingredients.models import RecipeIngredient #to access RecipeIngredient model
 from .utils import get_recipename_from_id, get_chart, get_ingredientname_from_id
@@ -15,6 +15,7 @@ class RecipeListView(LoginRequiredMixin, ListView):             #class-based “
     def get_context_data(self,*args, **kwargs):
         context = super(RecipeListView, self).get_context_data(*args,**kwargs)
         context['form'] = RecipesSearchForm(None)
+        context['input_form']= UserInputForm(None)
         return context
     def post(self, request):
         form = RecipesSearchForm(request.POST or None)
@@ -77,8 +78,19 @@ class RecipeListView(LoginRequiredMixin, ListView):             #class-based “
         
         print('recipes_df', recipes_df)
         #Load the recipes/main.html page using the data that you just prepared
-        return render(request, 'recipes/main.html', context)   
-       
+        return render(request, 'recipes/main.html', context)       
+
+def recipe_user_input_view(request):
+    #create an instance of UserInputForm that you defined in recipes/forms.py
+    form = UserInputForm(request.POST or None)
+
+    #pack up data to be sent to template in the context dictionary
+    context={
+        'form': form,
+        }
+    #load the recipes/create.html page using the data that you just prepared   
+    return render(request, 'recipes/create.html', context)
+           
 
 class RecipeDetailView(LoginRequiredMixin, DetailView):         #class-based “protected” view
    model = Recipe                           #specify model

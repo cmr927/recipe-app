@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<h1> Add your own recipes! </h1>
+
+<hr>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit">submit</button>
+
+</form>
