@@ -29,6 +29,7 @@ class Recipe(models.Model):
         Param: self
         Calculates the difficulty level of recipe. Retuns the difficulty of the recipe.
         '''  
+        print("self.cooking_time", type(self.cooking_time))
         if self.cooking_time < 10 and len(self.recipeingredient_set.all()) < 4:
             self.difficulty = "Easy"
         elif self.cooking_time < 10 and len(self.recipeingredient_set.all()) >= 4:

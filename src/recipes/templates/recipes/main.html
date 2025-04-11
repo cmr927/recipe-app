@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Chop It Like It's Hot</title>
+
     <!-- Vanilla CSS -->
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <!-- Bootstrap CSS -->
@@ -14,90 +15,110 @@
 
 <body>
 
-    <section class="header-section">
-        <h1> Chop It Like It's Hot</h1>
+    <!-- Header Section -->
+    <section class="header-section mb-4">
+        <h1>Chop It Like It's Hot</h1>
     </section>
+
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top mb-4">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="#">Recipe App</a>
+            <a class="navbar-brand fw-bold" href="#">Chop It Like It's Hot</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Recipes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{%url 'about:about' %}">About Me</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{%url 'logout' %}">Logout</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-primary text-white px-4" href="#">Get Started</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'recipes:list' %}">Recipes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'recipes:create' %}">Create Recipe</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about:about' %}">About Me</a></li>
+                    <li class="nav-item"><a class="nav-link text-danger" href="{% url 'logout' %}">Logout</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div>
-        <h1> Search for recipes and ingredients </h1>
 
-
-        <hr>
-        <form action="" method="POST">
+    <!-- Search Form -->
+    <div class="container mb-5">
+        <h2 class="text-center mb-4">Search for Recipes and Ingredients</h2>
+        <form method="POST" class="row g-3 justify-content-center">
             {% csrf_token %}
-            {{form}}
-            <button type="submit">search</button>
-
+            <div class="col-md-6">
+                {{ form }}
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
         </form>
+    </div>
 
-        <br>
-
+    <!-- Search Results -->
+    <div class="container mb-5">
         {% if recipes_df %}
-        <a href="">Back</a>
-        {% for recipe in recipes_df %}
-        <div class="row">
-            <div class="col">
-                <a href={{recipe.id}}>{{recipe.name}} </a>
-            </div>
-            <div class="col">
-                {{recipe.cooking_time}}
-            </div>
-            <div class="col">
-                {{recipe.difficulty}}
-            </div>
+        <div class="mb-3">
+            <a href="" class="btn btn-outline-secondary btn-sm">Back</a>
         </div>
-        {% endfor %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>Cooking Time</th>
+                        <th>Difficulty</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for recipe in recipes_df %}
+                    <tr>
+                        <td><a href="{{ recipe.id }}">{{ recipe.name }}</a></td>
+                        <td>{{ recipe.cooking_time }}</td>
+                        <td>{{ recipe.difficulty }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-        <br>
-        <img src="data:image/png;base64, {{chart|safe}}">
+        <!-- Chart -->
+        <div class="text-center mt-4">
+            <img src="data:image/png;base64, {{ chart|safe }}" class="img-fluid" alt="Recipe Chart">
+        </div>
         {% else %}
-        <h3> no data</h3>
+        <div class="text-center">
+            <h4 class="text-muted">No data found. Try a different search.</h4>
+        </div>
         {% endif %}
     </div>
-    <div class="row">
-        <h1> Latest Recipes </h1> {% comment%} start of table {% endcomment%}
 
-        {% for object in object_list %} {% comment%} go through each element of recipes's' list using for
-        loop
-        {% endcomment%}
-        <div class="mt-4 col-4">
-            <div class="d-flex justify-content-center">
-                <img class="recipe-images" src="{{object.pic.url}}" width="185" height="200" /> {% comment%} display the
-                recipe
-                pic
-                {% endcomment%}
+    <!-- Latest Recipes -->
+    <div class="container mb-5">
+        <h2 class="text-center mb-4">Latest Recipes</h2>
+        <div class="row g-4">
+            {% for object in object_list %}
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <img src="{{ object.pic.url }}" class="card-img-top recipe-images" alt="{{ object.name }}">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">
+                            <a href="{{ object.get_absolute_url }}" class="text-decoration-none text-dark">
+                                {{ object.name }}
+                            </a>
+                        </h5>
+                    </div>
+                </div>
             </div>
-            <div class="d-flex justify-content-center">
-                <a href="{{object.get_absolute_url}}"> {% comment%} add links to recipe names {% endcomment%}
-                    {{object.name}}
-                </a>
-            </div> {% comment%} print the name of the recipe {% endcomment%}
+            {% endfor %}
         </div>
-        {% endfor %}
-
     </div>
 
-    <a href="{%url 'logout' %}"> Logout </a>
+    <!-- Footer -->
+    <footer class="text-center py-4 text-muted border-top">
+        Chop It Like It's Hot - Built by Challis Regan | <a href="{% url 'logout' %}">Logout</a>
+    </footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>

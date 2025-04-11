@@ -83,6 +83,29 @@ class RecipeListView(LoginRequiredMixin, ListView):             #class-based “
 def recipe_user_input_view(request):
     #create an instance of UserInputForm that you defined in recipes/forms.py
     form = UserInputForm(request.POST or None)
+    
+    #check if the button is clicked
+    if request.method =='POST':
+        #read 'name', 'ingredients', 'cooking_time', 'directions', 'pic'
+        name = request.POST.get('name')
+        ingredients = request.POST.get('ingredients')
+        cooking_time = int(request.POST.get('cooking_time'))
+        directions = request.POST.get('directions')
+        pic_name = request.POST.get('pic')
+        pic = request.FILES['pic']
+        print("pic", pic)
+        #recipe model
+        r = Recipe(name=name, cooking_time=cooking_time, directions=directions, pic=pic)
+        r.save()
+        for i in ingredients:
+            ingredient = Ingredient.objects.get(id=i)
+            RecipeIngredient.objects.create(ingredient=ingredient, recipe=r, quantity="1oz")
+            r.ingredients.add(ingredient)
+        r.calc_difficulty()
+        r.save()
+        
+        #display in terminal - needed for debugging during development only
+        print (name, ingredients, cooking_time, directions, pic)
 
     #pack up data to be sent to template in the context dictionary
     context={

@@ -1,12 +1,13 @@
 body {
     font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
 }
 
 .header-section {
     text-align: center;
     padding: 60px 20px;
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url("home/images/home_pic.jpeg") center/cover no-repeat;
+        url("home/images/home_pic.jpeg") center/cover no-repeat;
     color: white;
 }
 
@@ -17,8 +18,11 @@ body {
 
 .header-section p {
     font-size: 1.25rem;
+    margin-top: 10px;
 }
 
 .recipe-images {
-    border-radius: 15%;
+    border-radius: 15px;
+    object-fit: cover;
+    height: 200px;
 }
