@@ -29,8 +29,6 @@ class RecipeListView(LoginRequiredMixin, ListView):             #class-based “
         #apply filter to extract data
         qs = Recipe.objects.filter(name__icontains=recipe_title, ingredients__name__icontains=ingredient_title).distinct()
         ingredient_qs = RecipeIngredient.objects.filter(recipe__name__icontains=recipe_title, ingredient__name__icontains=ingredient_title).distinct()
-        print(ingredient_qs)
-        print("qs", qs)
         if qs and ingredient_qs:      #if data found
            #convert the queryset values to pandas dataframe
            recipes_df=pd.DataFrame(qs.values())
@@ -88,19 +86,19 @@ def recipe_user_input_view(request):
     if request.method =='POST':
         #read 'name', 'ingredients', 'cooking_time', 'directions', 'pic'
         name = request.POST.get('name')
-        ingredients = request.POST.get('ingredients')
+        ingredients = request.POST.getlist('ingredients')
         cooking_time = int(request.POST.get('cooking_time'))
         directions = request.POST.get('directions')
         pic_name = request.POST.get('pic')
         pic = request.FILES['pic']
-        print("pic", pic)
         #recipe model
         r = Recipe(name=name, cooking_time=cooking_time, directions=directions, pic=pic)
         r.save()
+        
         for i in ingredients:
             ingredient = Ingredient.objects.get(id=i)
             RecipeIngredient.objects.create(ingredient=ingredient, recipe=r, quantity="1oz")
-            r.ingredients.add(ingredient)
+            r.ingredients.add(i)
         r.calc_difficulty()
         r.save()
         

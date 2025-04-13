@@ -5,7 +5,8 @@ from recipe_ingredients.models import RecipeIngredient
 from .forms import RecipesSearchForm
 from django.test.client import RequestFactory
 from django.contrib.auth.models import AnonymousUser, User
-from .views import RecipeListView, RecipeDetailView
+from .views import RecipeListView, RecipeDetailView, recipe_user_input_view
+from django.core.files import temp as tempfile
 
 # Create your tests here.
 class RecipeModelTest(TestCase):
@@ -182,6 +183,52 @@ class TestRecipeListView(TestCase):
       request.user = AnonymousUser()
       response = RecipeListView.as_view()(request)
       self.assertEqual(response.status_code,302)
+
+class TestRecipeUserInputView(TestCase):
+   def setUp(self):  
+      self.factory = RequestFactory()  
+      self.user = User.objects.create_user(
+      username='test1',
+      email='abc1@gmail.com',
+      first_name='t',
+      last_name='u',
+      password='password'
+        )
+      self.ingredient_1 = Ingredient.objects.create(name= 'Peanut Butter')
+      self.ingredient_2 = Ingredient.objects.create(name= 'Jelly')
+   
+   def test_get_recipe_user_input_view(self):
+      request = self.factory.get('/recipes/create/')
+      request.user = self.user
+      response = recipe_user_input_view(request)
+      self.assertEqual(response.status_code, 200)
+      
+   def test_post_recipe_user_input_view(self):
+      file = tempfile.NamedTemporaryFile()
+      with open(file.name, 'rb') as test_pic:
+         request = self.factory.post('/recipes/create/', {
+            "name": "pb&j", 
+            "ingredients": [self.ingredient_1.id, self.ingredient_2.id], 
+            "cooking_time": "5", 
+            "directions": "make da sandwich",
+            "pic": test_pic
+         }
+                                  )
+         request.user = self.user
+
+         response = recipe_user_input_view(request)
+      self.assertEqual(response.status_code, 200)   
+      recipe = Recipe.objects.all()
+      recipe_ings = RecipeIngredient.objects.all()
+      self.assertEqual(len(recipe_ings), 2)
+      self.assertEqual(len(recipe), 1)   
+      self.assertEqual(recipe[0].name, "pb&j")   
+      ingredients= recipe[0].get_ingredients()
+      self.assertEqual(ingredients, '1oz Peanut Butter\n1oz Jelly')
+      self.assertEqual(recipe[0].cooking_time, 5)
+      self.assertEqual(recipe[0].directions, "make da sandwich")
+         
+        
       
       
       
