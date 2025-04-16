@@ -1,15 +1,7 @@
 from django.shortcuts import render
-#to protect function-based views
-from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-    
-def home(request):
-    return render(request, 'home/home.html')
 
-#define function-based view - records(request)
-#keep protected
-@login_required
-def records(request):
-    #do nothing, simply display page    
-    return render(request, 'home/records.html')
+
+def home(request):
+    return render(request, "home/home.html")

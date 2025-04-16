@@ -7,6 +7,9 @@ from recipe_ingredients.models import (
 )  # to access RecipeIngredient model
 from .utils import get_recipename_from_id, get_chart, get_ingredientname_from_id
 from django.contrib.auth.mixins import LoginRequiredMixin  # to protect class-based view
+from django.contrib.auth.decorators import (
+    login_required,
+)  # to protect function-based views
 import pandas as pd
 from pathlib import Path
 from django.core.files import File
@@ -87,6 +90,8 @@ class RecipeListView(LoginRequiredMixin, ListView):  # class-based â€œprotectedâ
         return render(request, "recipes/main.html", context)
 
 
+# keep protected
+@login_required
 def recipe_user_input_view(request):
     # create an instance of UserInputForm that you defined in recipes/forms.py
     form = UserInputForm(request.POST or None)
