@@ -17,3 +17,7 @@ class UserInputForm(forms.ModelForm):
    class Meta:
       model=Recipe
       fields= ['name', 'ingredients', 'cooking_time', 'directions', 'pic']
+      
+   def __init__(self, *args, **kwargs):
+      super(UserInputForm, self).__init__(*args, **kwargs)
+      self.fields['pic'].required = True

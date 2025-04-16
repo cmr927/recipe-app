@@ -1,24 +1,28 @@
 body {
     font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
 }
 
-.hero-section {
+.header-section {
     text-align: center;
     padding: 60px 20px;
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url("{% static 'home/images/home_pic.jpeg' %}") center/cover no-repeat;
+        url("home/images/home_pic.jpeg") center/cover no-repeat;
     color: white;
 }
 
-.hero-section h1 {
+.header-section h1 {
     font-size: 3rem;
     font-weight: bold;
 }
 
-.hero-section p {
+.header-section p {
     font-size: 1.25rem;
+    margin-top: 10px;
 }
 
-div {
-    background-color: brown;
+.recipe-images {
+    border-radius: 15px;
+    object-fit: cover;
+    height: 200px;
 }

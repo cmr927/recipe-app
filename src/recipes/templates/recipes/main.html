@@ -38,6 +38,29 @@
         </div>
     </nav>
 
+
+
+    <!-- Latest Recipes -->
+    <div class="container mb-5">
+        <h2 class="text-center mb-4">Latest Recipes</h2>
+        <div class="row g-4">
+            {% for object in object_list %}
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <img src="{{ object.pic.url }}" class="card-img-top recipe-images" alt="{{ object.name }}">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">
+                            <a href="{{ object.get_absolute_url }}" class="text-decoration-none text-dark">
+                                {{ object.name }}
+                            </a>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
     <!-- Search Form -->
     <div class="container mb-5">
         <h2 class="text-center mb-4">Search for Recipes and Ingredients</h2>
@@ -90,30 +113,15 @@
         {% endif %}
     </div>
 
-    <!-- Latest Recipes -->
-    <div class="container mb-5">
-        <h2 class="text-center mb-4">Latest Recipes</h2>
-        <div class="row g-4">
-            {% for object in object_list %}
-            <div class="col-md-4">
-                <div class="card h-100 shadow-sm border-0">
-                    <img src="{{ object.pic.url }}" class="card-img-top recipe-images" alt="{{ object.name }}">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">
-                            <a href="{{ object.get_absolute_url }}" class="text-decoration-none text-dark">
-                                {{ object.name }}
-                            </a>
-                        </h5>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-
     <!-- Footer -->
     <footer class="text-center py-4 text-muted border-top">
-        Chop It Like It's Hot - Built by Challis Regan | <a href="{% url 'logout' %}">Logout</a>
+        Chop It Like It's Hot - Built by Challis Regan
+        <p>
+            <a class="m-2" href="https://cmr927.github.io/portfolio-website/"> Portfolio </a>
+            <a class="m-2" href="https://github.com/cmr927">Github </a>
+            <a class="m-2" href="https://linkedin.com/in/challis-regan-9121a584"> LinkedIn </a>
+            <a class="m-2" href="{% url 'logout' %}">Logout</a>
+        </p>
     </footer>
 
     <!-- Bootstrap JS -->
