@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["shielded-badlands-21677-49d691812b2d.herokuapp.com"]
+ALLOWED_HOSTS = ["shielded-badlands-21677-49d691812b2d.herokuapp.com", "localhost"]
 
 
 # Application definition
