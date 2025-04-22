@@ -21,16 +21,40 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-@5bwq-59j!h8-wl9x@j_u_zydz9asf3f^j0wyq0$*oe+7bsd^#"
+import os
+
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-@5bwq-59j!h8-wl9x@j_u_zydz9asf3f^j0wyq0$*oe+7bsd^#",
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "localhost",
     "https://shielded-badlands-21677-49d691812b2d.herokuapp.com/",
     "127.0.0.1",
 ]
+
+
+AWS_S3_ACCESS_KEY_ID = os.environ.get(
+    "AWS_S3_ACCESS_KEY_ID",
+    "",
+)
+
+AWS_S3_SECRET_ACCESS_KEY = os.environ.get(
+    "AWS_S3_SECRET_ACCESS_KEY",
+    "",
+)
+
+AWS_STORAGE_BUCKET_NAME = "recipes-pics1234"
+AWS_S3_SIGNATURE_NAME = ("s3v4",)
+AWS_S3_REGION_NAME = "us-east-1"
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+AWS_S3_VERITY = True
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 
 # Application definition
@@ -54,6 +78,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -92,6 +117,12 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+# Heroku: Update database configuration from $DATABASE_URL.
+import dj_database_url
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES["default"].update(db_from_env)
 
 
 # Password validation
