@@ -33,7 +33,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     "localhost",
-    "shielded-badlands-21677-49d691812b2d.herokuapp.com",
+    "shielded-badlands-21677-49d691812b2d.herokuapp.com/",
     "127.0.0.1",
 ]
 
@@ -169,6 +169,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "home/static",
     BASE_DIR / "media",
     BASE_DIR / "recipes/static",
+    BASE_DIR / "static",
 ]
 
 MEDIA_URL = "/media/"
