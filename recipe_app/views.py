@@ -47,7 +47,7 @@ def login_view(request):
         # load the login page using "context" information
         return render(request, "auth/login.html", context)
     except:
-        logging.error(traceback.format_exc)
+        logging.error(traceback.format_exc())
 
 
 # define a function view called logout_view that takes a request from user
