@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import (
 import pandas as pd
 from pathlib import Path
 from django.core.files import File
+from django.core.files.storage import default_storage
 
 
 # Create your views here.
@@ -106,8 +107,7 @@ def recipe_user_input_view(request):
         pic_name = request.POST.get("pic")
         pic = request.FILES.get("pic")
         if not pic:
-            path = Path("recipes/no_picture_Qr0VHvS.webp")
-            with path.open(mode="rb") as f:
+            with default_storage.open("recipes/no_picture_Qr0VHvS.webp", "rb") as f:
                 pic = File(f, name=path.name)
                 r = Recipe(
                     name=name, cooking_time=cooking_time, directions=directions, pic=pic
