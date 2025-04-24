@@ -106,7 +106,7 @@ def recipe_user_input_view(request):
         pic_name = request.POST.get("pic")
         pic = request.FILES.get("pic")
         if not pic:
-            path = Path("media/recipes/no_picture.webp")
+            path = Path("recipes/no_picture_Qr0VHvS.webp")
             with path.open(mode="rb") as f:
                 pic = File(f, name=path.name)
                 r = Recipe(
