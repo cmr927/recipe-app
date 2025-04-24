@@ -172,6 +172,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+CSRF_TRUSTED_ORIGINS = ["https://shielded-badlands-21677-49d691812b2d.herokuapp.com"]
+
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
