@@ -25,7 +25,7 @@ import os
 
 SECRET_KEY = os.environ.get(
     "DJANGO_SECRET_KEY",
-    "django-insecure-@5bwq-59j!h8-wl9x@j_u_zydz9asf3f^j0wyq0$*oe+7bsd^#",
+    "",
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -178,3 +178,8 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Configure Django App for Heroku.
+# import django_on_heroku
+
+# django_on_heroku.settings(locals())
