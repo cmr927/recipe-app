@@ -108,7 +108,7 @@ def recipe_user_input_view(request):
         pic = request.FILES.get("pic")
         if not pic:
             with default_storage.open("recipes/no_picture_Qr0VHvS.webp", "rb") as f:
-                pic = File(f, name=path.name)
+                pic = File(f, name="no_picture_Qr0VHvS.webp")
                 r = Recipe(
                     name=name, cooking_time=cooking_time, directions=directions, pic=pic
                 )
